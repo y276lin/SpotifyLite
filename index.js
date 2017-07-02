@@ -2,6 +2,7 @@ var express = require('express');
 var request = require("request");
 var app = express();
 var token, postman;
+var originAllowed = 'https://spotifylite.herokuapp.com/';
 app.use(express.static(__dirname + '/dist'));
 app.set('view engine', 'html');
 
@@ -10,7 +11,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/api/searchMusic/:str', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Search Music for: ', req.params.str);
     var type = 'artist';
     postman.url = 'https://api.spotify.com/v1/search?query=' + req.params.str + '&offset=0&limit=10&type=' + type + '&market=US';
@@ -21,7 +22,7 @@ app.get('/api/searchMusic/:str', function(req, res) {
 });
 
 app.get('/api/getArtist/:str', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Getting Artist: ', req.params.str);
     postman.url = 'https://api.spotify.com/v1/artists/' + req.params.str;
     request(postman, (error, response, body) => {
@@ -32,7 +33,7 @@ app.get('/api/getArtist/:str', function(req, res) {
 });
 
 app.get('/api/getAlbums/:str', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Getting Albums: ', req.params.str);
     postman.url = 'https://api.spotify.com/v1/artists/' + req.params.str + '/albums';
     request(postman, (error, response, body) => {
@@ -42,7 +43,7 @@ app.get('/api/getAlbums/:str', function(req, res) {
 });
 
 app.get('/api/getAlbum/:str', function(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Getting Album: ', req.params.str);
     postman.url = 'https://api.spotify.com/v1/albums/' + req.params.str;
     request(postman, (error, response, body) => {
