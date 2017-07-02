@@ -6,18 +6,6 @@ var originAllowed = 'https://spotifylite.herokuapp.com/';
 app.use(express.static(__dirname + '/dist'));
 app.set('view engine', 'html');
 
-app.get('/', function(request, response) {
-    response.sendFile(__dirname + '/dist/index.html');
-});
-
-app.get('/home', function(request, response) {
-    response.sendFile(__dirname + '/dist/index.html');
-});
-
-app.get('/about', function(request, response) {
-    response.sendFile(__dirname + '/dist/index.html');
-});
-
 app.get('/api/searchMusic/:str', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Search Music for: ', req.params.str);
@@ -57,6 +45,10 @@ app.get('/api/getAlbum/:str', function(req, res) {
       if (error) throw new Error(error);
       res.send(body);
     });
+});
+
+app.get('/*', function(request, response) {
+    response.sendFile(__dirname + '/dist/index.html');
 });
 
 // Helper function
