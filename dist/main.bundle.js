@@ -14,13 +14,41 @@ module.exports = "<h1>About {{app_name}}</h1>\n<h3>Version: 1.1</h3>\n<p>This is
 
 /***/ }),
 
-/***/ 16:
+/***/ 160:
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"album\" *ngIf=\"album\">\n    <header class=\"album-header\">\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <div *ngIf=\"album.images\">\n                    <img class=\"album-thumb\" src=\"{{album.images[0].url}}\">\n                </div>\n            </div>\n            <div class=\"col-md-8\">\n                <h4 *ngIf=\"album.artists\">\n                    <span *ngFor=\"let artist of album.artists\">\n                        {{artist.name}}\n                    </span>\n                </h4>\n                <h2>{{album.name}}</h2>\n                <h5>Release Date: {{album.release_date}}</h5>\n                <a target=\"_blank\" class=\"btn btn-primary theme\" href=\"{{album.external_urls.spotify}}\">View In Spotify</a>\n            </div>\n        </div>\n    </header>\n\n    <div class=\"album-tracks\">\n        <h2>Album Tracks</h2>\n        <div *ngFor=\"let track of album.tracks.items;let i = index\">\n            <div class=\"well\">\n                <h5>{{track.track_number}} - {{track.name}}</h5>\n                <button class=\"btn btn-primary\" (click)=\"preview(track.preview_url, i)\" *ngIf=\"i!=sampleIndex && track.preview_url\">Preview</button>\n                <button class=\"btn btn-primary btn-loading\" *ngIf=\"loading && i===sampleIndex && track.preview_url\">Loading</button>\n                <button class=\"btn btn-red\" (click)=\"preview(null, -1)\" *ngIf=\"i==sampleIndex && !loading && track.preview_url\">&nbsp;&nbsp;Pause&nbsp;&nbsp;</button>\n                <span class=\"theme\" *ngIf=\"!track.preview_url\">preview not available</span>\n            </div>\n        </div>\n    </div>\n</div>    "
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"artist\">\n    <header class=\"artist-header\">\n        <div *ngIf=\"artist.images\">\n            <img class=\"artist-thumb img-circle\" src=\"{{artist.images[0]?.url}}\" *ngIf=\"artist.images[0]\"/>\n            <img class=\"artist-thumb img-circle\" src=\"{{img_not_available}}\" *ngIf=\"!artist.images[0]\"/>\n        </div>\n        <h1>{{artist.name}}</h1>\n        <p *ngIf=\"artist.genres\">\n            <span *ngFor=\"let g of artist.genres\" class=\"bubble\">{{g}}</span>\n        </p>\n    </header>\n\n    <div class=\"artist-albums\">\n        <div class=\"row\">\n            <div *ngFor=\"let album of albums\">\n                <div class=\"col-md-3\">\n                    <div class=\"well album\">\n                        <div *ngIf=\"album.images\">\n                            <img class=\"album-thumb img-thumbnail\" src=\"{{album.images[0]?.url}}\">\n                            <h4>{{album.name}}</h4>\n                            <a class=\"btn btn-default btn-block\" routerLink=\"/album/{{album.id}}\">Album Details</a>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, exports) {
+
+module.exports = "<nav class=\"navbar navbar-inverse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <a class=\"navbar-brand\" routerLink=\"/\" style=\"color:#6AE368;\">{{app_name}}</a>\n        </div>\n        <div id=\"navbar\" class=\"collapse navbar-collapse\">\n            <ul class=\"nav navbar-nav\">\n            <li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n            <li routerLinkActive=\"active\"><a routerLink=\"/about\">About</a></li>\n            </ul>\n        </div>\n    </div>\n</nav>"
+
+/***/ }),
+
+/***/ 163:
+/***/ (function(module, exports) {
+
+module.exports = "<h1>Need Music?</h1>\n<p class=\"lead\">Use the {{app_name}} app to browse new releases and find the preview snipppet!</p>\n<form>\n    <div class=\"form-group\">\n        <input  autocomplete=\"off\" type=\"text\" name=\"searchStr\" [(ngModel)]=\"searchStr\" class=\"form-control\" placeholder=\"Search by Artist (e.g. Ed Sheeran)\"\n            (keyup)=\"searchMusic()\" (onEnter)=\"searchMusic()\">\n    </div>\n</form>\n\n<div *ngIf=\"searchRes && searchable\">\n    <div *ngFor=\"let res of searchRes\">\n        <div class=\"row\">\n            <div clas=\"col-md-12\">\n                <div class=\"search-res well\">\n                    <div *ngIf=\"res.images\">\n                        <a routerLink=\"/artist/{{res.id}}\">\n                            <img class=\"artist-thumb img-circle\" src=\"{{res.images[0]?.url}}\" *ngIf=\"res.images[0]\"/>\n                            <img class=\"artist-thumb img-circle\" src=\"{{img_not_available}}\" *ngIf=\"!res.images[0]\"/>\n                        </a>\n                    </div>\n                    <h4><a routerLink=\"/artist/{{res.id}}\">{{res.name}}</a></h4>\n                    <div *ngIf=\"res.genres?.length > 0\" class=\"genre-wrapper\">\n                        <strong class=\"theme\" style=\"margin-right:10px\">Genres:</strong>\n                        <span class=\"bubble\" *ngFor=\"let g of res.genres.slice(0,5)\">{{g}}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <hr style=\"border:1px solid #6AE368\">\n    <div style=\"width:100%;text-align:center;color:#6AE368;\">end of list</div>\n</div>"
+
+/***/ }),
+
+/***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpotifyService; });
@@ -91,48 +119,20 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 160:
-/***/ (function(module, exports) {
-
-module.exports = "<div id=\"album\" *ngIf=\"album\">\n    <header class=\"album-header\">\n        <div class=\"row\">\n            <div class=\"col-md-4\">\n                <div *ngIf=\"album.images\">\n                    <img class=\"album-thumb\" src=\"{{album.images[0].url}}\">\n                </div>\n            </div>\n            <div class=\"col-md-8\">\n                <h4 *ngIf=\"album.artists\">\n                    <span *ngFor=\"let artist of album.artists\">\n                        {{artist.name}}\n                    </span>\n                </h4>\n                <h2>{{album.name}}</h2>\n                <h5>Release Date: {{album.release_date}}</h5>\n                <a target=\"_blank\" class=\"btn btn-primary theme\" href=\"{{album.external_urls.spotify}}\">View In Spotify</a>\n            </div>\n        </div>\n    </header>\n\n    <div class=\"album-tracks\">\n        <h2>Album Tracks</h2>\n        <div *ngFor=\"let track of album.tracks.items;let i = index\">\n            <div class=\"well\">\n                <h5>{{track.track_number}} - {{track.name}}</h5>\n                <button class=\"btn btn-primary\" (click)=\"preview(track.preview_url, i)\" *ngIf=\"i!=sampleIndex && track.preview_url\">Preview</button>\n                <button class=\"btn btn-primary btn-loading\" *ngIf=\"loading && i===sampleIndex && track.preview_url\">Loading</button>\n                <button class=\"btn btn-red\" (click)=\"preview(null, -1)\" *ngIf=\"i==sampleIndex && !loading && track.preview_url\">&nbsp;&nbsp;Pause&nbsp;&nbsp;</button>\n                <span class=\"theme\" *ngIf=\"!track.preview_url\">preview not available</span>\n            </div>\n        </div>\n    </div>\n</div>    "
-
-/***/ }),
-
-/***/ 161:
-/***/ (function(module, exports) {
-
-module.exports = "<div *ngIf=\"artist\">\n    <header class=\"artist-header\">\n        <div *ngIf=\"artist.images\">\n            <img class=\"artist-thumb img-circle\" src=\"{{artist.images[0]?.url}}\" *ngIf=\"artist.images[0]\"/>\n            <img class=\"artist-thumb img-circle\" src=\"{{img_not_available}}\" *ngIf=\"!artist.images[0]\"/>\n        </div>\n        <h1>{{artist.name}}</h1>\n        <p *ngIf=\"artist.genres\">\n            <span *ngFor=\"let g of artist.genres\" class=\"bubble\">{{g}}</span>\n        </p>\n    </header>\n\n    <div class=\"artist-albums\">\n        <div class=\"row\">\n            <div *ngFor=\"let album of albums\">\n                <div class=\"col-md-3\">\n                    <div class=\"well album\">\n                        <div *ngIf=\"album.images\">\n                            <img class=\"album-thumb img-thumbnail\" src=\"{{album.images[0]?.url}}\">\n                            <h4>{{album.name}}</h4>\n                            <a class=\"btn btn-default btn-block\" routerLink=\"/album/{{album.id}}\">Album Details</a>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
-
-/***/ }),
-
-/***/ 162:
-/***/ (function(module, exports) {
-
-module.exports = "<nav class=\"navbar navbar-inverse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <a class=\"navbar-brand\" routerLink=\"/\" style=\"color:#6AE368;\">{{app_name}}</a>\n        </div>\n        <div id=\"navbar\" class=\"collapse navbar-collapse\">\n            <ul class=\"nav navbar-nav\">\n            <li routerLinkActive=\"active\"><a routerLink=\"/home\">Home</a></li>\n            <li routerLinkActive=\"active\"><a routerLink=\"/about\">About</a></li>\n            </ul>\n        </div>\n    </div>\n</nav>"
-
-/***/ }),
-
-/***/ 163:
-/***/ (function(module, exports) {
-
-module.exports = "<h1>Need Music?</h1>\n<p class=\"lead\">Use the {{app_name}} app to browse new releases and find the preview snipppet!</p>\n<form>\n    <div class=\"form-group\">\n        <input  autocomplete=\"off\" type=\"text\" name=\"searchStr\" [(ngModel)]=\"searchStr\" class=\"form-control\" placeholder=\"Search by Artist (e.g. Ed Sheeran)\"\n            (keyup)=\"searchMusic()\" (onEnter)=\"searchMusic()\">\n    </div>\n</form>\n\n<div *ngIf=\"searchRes && searchable\">\n    <div *ngFor=\"let res of searchRes\">\n        <div class=\"row\">\n            <div clas=\"col-md-12\">\n                <div class=\"search-res well\">\n                    <div *ngIf=\"res.images\">\n                        <a routerLink=\"/artist/{{res.id}}\">\n                            <img class=\"artist-thumb img-circle\" src=\"{{res.images[0]?.url}}\" *ngIf=\"res.images[0]\"/>\n                            <img class=\"artist-thumb img-circle\" src=\"{{img_not_available}}\" *ngIf=\"!res.images[0]\"/>\n                        </a>\n                    </div>\n                    <h4><a routerLink=\"/artist/{{res.id}}\">{{res.name}}</a></h4>\n                    <div *ngIf=\"res.genres?.length > 0\" class=\"genre-wrapper\">\n                        <strong class=\"theme\" style=\"margin-right:10px\">Genres:</strong>\n                        <span class=\"bubble\" *ngFor=\"let g of res.genres.slice(0,5)\">{{g}}</span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n    <hr style=\"border:1px solid #6AE368\">\n    <div style=\"width:100%;text-align:center;color:#6AE368;\">end of list</div>\n</div>"
-
-/***/ }),
-
 /***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(88);
+module.exports = __webpack_require__(89);
 
 
 /***/ }),
 
-/***/ 60:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(17);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AboutComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -165,13 +165,13 @@ var _a;
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AlbumComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -228,13 +228,13 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_spotify_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_spotify_service__ = __webpack_require__(17);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ArtistComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -280,12 +280,12 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(17);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -331,7 +331,7 @@ var _a;
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, exports) {
 
 function webpackEmptyContext(req) {
@@ -340,20 +340,20 @@ function webpackEmptyContext(req) {
 webpackEmptyContext.keys = function() { return []; };
 webpackEmptyContext.resolve = webpackEmptyContext;
 module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 87;
+webpackEmptyContext.id = 88;
 
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(99);
 
 
 
@@ -366,7 +366,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 94:
+/***/ 95:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -395,22 +395,22 @@ AppComponent = __decorate([
 
 /***/ }),
 
-/***/ 95:
+/***/ 96:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_navbar_component__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_search_component__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_about_component__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_artist_component__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_album_component__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_routes__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_spotify_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_navbar_component__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_search_component__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_about_component__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_artist_component__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_album_component__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_routes__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_spotify_service__ = __webpack_require__(17);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -460,16 +460,16 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_about_component__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_search_component__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_artist_component__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_album_component__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_about_component__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_search_component__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_artist_component__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_album_component__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -506,12 +506,12 @@ AppRoutingModule = __decorate([
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_spotify_service__ = __webpack_require__(17);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -544,7 +544,7 @@ var _a;
 
 /***/ }),
 
-/***/ 98:
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
