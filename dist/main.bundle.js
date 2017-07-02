@@ -41,7 +41,7 @@ var SpotifyService = (function () {
     function SpotifyService(_http, titleService) {
         this._http = _http;
         this.titleService = titleService;
-        this.baseUrl = 'https://spotifylite.herokuapp.com/';
+        this.baseUrl = 'https://spotifylite.herokuapp.com/api/';
         this.app_name = 'SpotifyLite';
         this.status = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* EventEmitter */]();
         this.titleService.setTitle(this.app_name);
