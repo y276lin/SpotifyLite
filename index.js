@@ -10,6 +10,14 @@ app.get('/', function(request, response) {
     response.sendFile(__dirname + '/dist/index.html');
 });
 
+app.get('/home', function(request, response) {
+    response.sendFile(__dirname + '/dist/index.html');
+});
+
+app.get('/about', function(request, response) {
+    response.sendFile(__dirname + '/dist/index.html');
+});
+
 app.get('/api/searchMusic/:str', function(req, res) {
     res.setHeader('Access-Control-Allow-Origin', originAllowed);
     console.log('Search Music for: ', req.params.str);
@@ -27,7 +35,6 @@ app.get('/api/getArtist/:str', function(req, res) {
     postman.url = 'https://api.spotify.com/v1/artists/' + req.params.str;
     request(postman, (error, response, body) => {
       if (error) throw new Error(error);
-      console.log(body);
       res.send(body);
     });
 });
