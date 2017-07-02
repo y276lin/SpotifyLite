@@ -39,60 +39,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var SpotifyService = (function () {
     function SpotifyService(_http, titleService) {
-        var _this = this;
         this._http = _http;
         this.titleService = titleService;
-        this.encode = 'Y2U2NjYyOGEyZjI3NDQwMGIxYTViZWM2YWY0NTY4MGI6MjYxOGY2ZmVhODFmNDY0ZWE3NTE4ZjQ5M2NmZmNhNmQ=';
+        this.baseUrl = 'https://spotifylite.herokuapp.com/';
         this.app_name = 'SpotifyLite';
         this.status = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* EventEmitter */]();
         this.titleService.setTitle(this.app_name);
-        this.getAuthorizationHeader();
-        setInterval(function () {
-            _this.getAuthorizationHeader();
-        }, 60000);
     }
-    SpotifyService.prototype.getAuthorizationHeader = function () {
-        var _this = this;
-        var header = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]();
-        header.append('Authorization', 'Basic ' + this.encode);
-        header.append('Content-Type', 'application/x-www-form-urlencoded');
-        var header_final = {
-            headers: header
-        };
-        var postUrl = 'https://accounts.spotify.com/api/token';
-        this._http.post(postUrl, 'grant_type=client_credentials', header_final).subscribe(function (res) {
-            header = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]();
-            header.append('Authorization', 'Bearer ' + res.json().access_token);
-            _this.header = {
-                headers: header
-            };
-            console.log('Token Obtained');
-        }, function (err) {
-            setTimeout(function () {
-                _this.getAuthorizationHeader();
-            }, 500);
-        });
-    };
-    SpotifyService.prototype.handleAuthorizationError = function () {
-        alert('Authorization Token Expired, please resubmit your request');
-        this.getAuthorizationHeader();
-    };
     SpotifyService.prototype.searchMusic = function (str, type) {
         if (type === void 0) { type = 'artist'; }
-        this.searchUrl = 'https://api.spotify.com/v1/search?query=' + str + '&offset=0&limit=10&type=' + type + '&market=US';
-        return this._http.get(this.searchUrl, this.header).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
+        this.searchUrl = this.baseUrl + 'searchMusic/' + str;
+        return this._http.get(this.searchUrl).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
     };
     SpotifyService.prototype.getArtist = function (artistId) {
-        this.artistUrl = 'https://api.spotify.com/v1/artists/' + artistId;
-        return this._http.get(this.artistUrl, this.header).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
+        this.artistUrl = this.baseUrl + 'getArtist/' + artistId;
+        return this._http.get(this.artistUrl).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
     };
     SpotifyService.prototype.getAlbums = function (artistId) {
-        this.albumsUrl = 'https://api.spotify.com/v1/artists/' + artistId + '/albums';
-        return this._http.get(this.albumsUrl, this.header).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
+        this.albumsUrl = this.baseUrl + 'getAlbums/' + artistId;
+        return this._http.get(this.albumsUrl).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
     };
     SpotifyService.prototype.getAlbum = function (artistId) {
-        this.albumUrl = 'https://api.spotify.com/v1/albums/' + artistId;
-        return this._http.get(this.albumUrl, this.header).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
+        this.albumUrl = this.baseUrl + 'getAlbum/' + artistId;
+        return this._http.get(this.albumUrl).map(function (res) { return res.json(); }, function (err) { return alert('No Internet Connection'); });
     };
     SpotifyService.prototype.preview = function (url) {
         var _this = this;
@@ -114,7 +83,7 @@ var SpotifyService = (function () {
 }());
 SpotifyService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["d" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* Title */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* Title */]) === "function" && _b || Object])
 ], SpotifyService);
 
 var _a, _b;
