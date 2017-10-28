@@ -1,0 +1,5 @@
+curl -X "POST" -H "Authorization: Basic Y2U2NjYyOGEyZjI3NDQwMGIxYTViZWM2YWY0NTY4MGI6MjYxOGY2ZmVhODFmNDY0ZWE3NTE4ZjQ5M2NmZmNhNmQ=" -d grant_type=client_credentials https://accounts.spotify.com/api/token
+
+{"access_token":"BQC7Ci5Njck-SJ7kRRCBz6HMat-wiCKKZtVwY0xR9vS10crQRZgk2kFQv24hngZmqfMuFOjr7LDnJgPKIgP-6g","token_type":"Bearer","expires_in":3600}
+
+curl -H "Authorization: Bearer BQC7Ci5Njck-SJ7kRRCBz6HMat-wiCKKZtVwY0xR9vS10crQRZgk2kFQv24hngZmqfMuFOjr7LDnJgPKIgP-6g" https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V

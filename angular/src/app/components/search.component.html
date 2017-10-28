@@ -1,0 +1,32 @@
+<h1>Need Music?</h1>
+<p class="lead">Use the {{app_name}} app to browse new releases and find the preview snipppet!</p>
+<form>
+    <div class="form-group">
+        <input  autocomplete="off" type="text" name="searchStr" [(ngModel)]="searchStr" class="form-control" placeholder="Search by Artist (e.g. Ed Sheeran)"
+            (keyup)="searchMusic()" (onEnter)="searchMusic()">
+    </div>
+</form>
+
+<div *ngIf="searchRes && searchable">
+    <div *ngFor="let res of searchRes">
+        <div class="row">
+            <div clas="col-md-12">
+                <div class="search-res well">
+                    <div *ngIf="res.images">
+                        <a routerLink="/artist/{{res.id}}">
+                            <img class="artist-thumb img-circle" src="{{res.images[0]?.url}}" *ngIf="res.images[0]"/>
+                            <img class="artist-thumb img-circle" src="{{img_not_available}}" *ngIf="!res.images[0]"/>
+                        </a>
+                    </div>
+                    <h4><a routerLink="/artist/{{res.id}}">{{res.name}}</a></h4>
+                    <div *ngIf="res.genres?.length > 0" class="genre-wrapper">
+                        <strong class="theme" style="margin-right:10px">Genres:</strong>
+                        <span class="bubble" *ngFor="let g of res.genres.slice(0,5)">{{g}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr style="border:1px solid #6AE368">
+    <div style="width:100%;text-align:center;color:#6AE368;">end of list</div>
+</div>
