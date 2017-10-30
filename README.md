@@ -1,6 +1,6 @@
-# SpotifyLiteServer - NodeJS
+# spotifyLite - Angular 2 + NodeJS
 
 - [Demo] -> https://spotifylite.herokuapp.com/
-- Provide access to front-end Angular 2 application with 30 million+ songs on Spotify
-- Authenticate app with Spotify to obtain access token for all users
-- Angular 2 repo -> https://github.com/x65han/SpotifyLite
+- Search music by Artist and preview without logging in
+- For full music, click on direct link to view on Spotify
+- Full access to 30 million+ songs on Spotify
